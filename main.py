@@ -25,7 +25,7 @@ class Bot(commands.Bot):
         await self.change_presence(
             activity=nextcord.Activity(
                 type=nextcord.ActivityType.watching,
-                name=f"pypspapi v{pyspapi.version_info}"),
+                name=f"pypspapi v{pyspapi.__version__}"),
             status=nextcord.Status.online)
         print(f'Logged in as {self.user} (ID: {self.user.id})')
 
