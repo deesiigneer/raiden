@@ -1,3 +1,5 @@
+import pyspapi
+
 import nextcord
 import logging
 from nextcord.ext import commands
@@ -22,8 +24,8 @@ class Bot(commands.Bot):
 
         await self.change_presence(
             activity=nextcord.Activity(
-                type=nextcord.ActivityType.listening,
-                name="deesiigneer'a"),
+                type=nextcord.ActivityType.watching,
+                name=f"pypspapi v{pyspapi.version_info}"),
             status=nextcord.Status.online)
         print(f'Logged in as {self.user} (ID: {self.user.id})')
 
