@@ -1,6 +1,7 @@
 from aiohttp import web
 from nextcord.ext import commands, tasks
 from nextcord.ext.commands.bot import Bot
+from os import environ
 
 app = web.Application()
 routes = web.RouteTableDef()
@@ -15,7 +16,7 @@ class Webserver(commands.Cog):
         async def welcome(request):
             return web.Response(text="Hello, world")
 
-        self.webserver_port = 80
+        self.webserver_port = int(environ.get('PORT', 8000))
         app.add_routes(routes)
 
     @tasks.loop()
