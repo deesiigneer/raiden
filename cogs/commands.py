@@ -1,3 +1,4 @@
+import nextcord
 from nextcord.ext.commands.bot import Bot
 from nextcord.embeds import Embed
 from nextcord.ext import commands
@@ -26,6 +27,17 @@ class GeneralCommands(commands.Cog):
     @slash_command(name='help', description='Помощь по боту', guild_ids=guilds)
     async def help(self, interaction: Interaction):
         await interaction.response.send_message('in dev', ephemeral=True)
+
+    @slash_command(name='check', description='Проверяет наличие проходки на СПм', guild_ids=guilds)
+    async def check(self, interaction: Interaction, user: nextcord.User = nextcord.SlashOption(
+                                  name='user',
+                                  description='Пользователь в Discord',
+                                  required=False
+                              )):
+        if user is not None:
+            await interaction.response.send_message(f'{api.get_user(user.id)}', ephemeral=True)
+        else:
+            await interaction.response.send_message(f'{api.get_user(interaction.user.id)}', ephemeral=True)
 
 
 def setup(bot):
