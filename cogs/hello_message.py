@@ -22,9 +22,6 @@ class Webserver(commands.Cog):
         async def welcome(request):
             return web.Response(text="Hello, world")
 
-        self.webserver_port = int(environ.get('PORT', 8000))
-        app.add_routes(routes)
-
         @routes.post('/webhook/')
         async def dblwebhook(request):
             print('Received Webhook...')
@@ -44,6 +41,9 @@ class Webserver(commands.Cog):
             else:
                 return 'Integrity of request compromised...', 401
             return 200
+
+        self.webserver_port = int(environ.get('PORT', 8000))
+        app.add_routes(routes)
 
     @tasks.loop()
     async def web_server(self):
