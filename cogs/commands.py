@@ -1,5 +1,5 @@
 from nextcord.ext.commands.bot import Bot
-from nextcord import ButtonStyle, Button, Interaction, Embed, Colour, slash_command, SlashOption
+from nextcord import ButtonStyle, Button, Interaction, Embed, Colour, slash_command, SlashOption, User
 from nextcord.ext import commands
 from nextcord.ui import View, Select, Modal, Button, button, TextInput
 from nextcord.user import ClientUser
@@ -28,7 +28,7 @@ class GeneralCommands(commands.Cog):
         await interaction.response.send_message('in dev', ephemeral=True)
 
     @slash_command(name='check', description='Проверяет наличие проходки на СПм', guild_ids=guilds)
-    async def check(self, interaction: Interaction, user: nextcord.User = SlashOption(
+    async def check(self, interaction: Interaction, user: User = SlashOption(
         name='user',
         description='Пользователь в Discord',
         required=False
