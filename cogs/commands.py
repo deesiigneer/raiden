@@ -1,3 +1,5 @@
+import json
+
 from nextcord.ext.commands.bot import Bot
 from nextcord import ButtonStyle, Button, Interaction, Embed, Colour, slash_command, SlashOption, User
 from nextcord.ext import commands
@@ -52,9 +54,10 @@ class GeneralCommands(commands.Cog):
                               redirect_url='https://spworlds.ru/',
                               webhook_url=f'{environ.get("WEBHOOK_URL", None)}',
                               data=f'{interaction.channel_id}-{message.id}')
-            print(f'url = {url[0]}')
+            url = json.loads(url)
+            print(f'url = {url["url"]}')
             embed.set_footer(text='Для оплаты, нажмите кнопку ниже.')
-            await message.edit(embed=embed, view=DonateButton(url=url[0]))
+            await message.edit(embed=embed, view=DonateButton(url=url['url']))
         except Exception as e:
             print(f'donate function error {e}')
 
