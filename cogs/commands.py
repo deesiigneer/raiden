@@ -54,9 +54,10 @@ class GeneralCommands(commands.Cog):
                               redirect_url='https://spworlds.ru/',
                               webhook_url=f'{environ.get("WEBHOOK_URL", None)}',
                               data=f'{interaction.channel_id}-{message.id}')
-            url = json.loads(str(url))
             print(f'url1 = {url}')
+            print(f'url1 = {url[0]}')
             print(f'url2 = {url["url"]}')
+            print(f'url1 = {url[0]["url"]}')
             embed.set_footer(text='Для оплаты, нажмите кнопку ниже.')
             await message.edit(embed=embed, view=DonateButton(url=url['url']))
         except Exception as e:
