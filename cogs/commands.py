@@ -4,9 +4,9 @@ from nextcord.ext import commands
 from nextcord.ui import View, Select, Modal, Button, button, TextInput
 from nextcord.user import ClientUser
 from os import environ
-from pyspapi import SPAPI
+from pyspapi import API
 
-api = SPAPI(card_id=environ.get('SP_CARD_ID', None), token=environ.get('SP_TOKEN', None))
+api = API(card_id=environ.get('SP_CARD_ID', None), token=environ.get('SP_TOKEN', None))
 
 guilds = [850091193190973472]
 

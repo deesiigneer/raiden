@@ -3,13 +3,13 @@ from nextcord import Color
 from nextcord.ext import commands, tasks
 from nextcord.ext.commands.bot import Bot
 from os import environ
-from pyspapi import SPAPI
+from pyspapi import API
 from json import loads, load
 
 app = web.Application()
 routes = web.RouteTableDef()
 
-api = SPAPI(card_id=environ.get('SP_CARD_ID', None),
+api = API(card_id=environ.get('SP_CARD_ID', None),
             token=environ.get('SP_TOKEN', None))
 
 
