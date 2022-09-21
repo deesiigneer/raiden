@@ -54,7 +54,7 @@ class GeneralCommands(commands.Cog):
                               redirect_url='https://spworlds.ru/',
                               webhook_url=f'{environ.get("WEBHOOK_URL", None)}',
                               data=f'{interaction.channel_id}-{message.id}')
-            url = json.loads(url)
+            url = json.loads(str(url))
             print(f'url1 = {url}')
             print(f'url2 = {url["url"]}')
             embed.set_footer(text='Для оплаты, нажмите кнопку ниже.')
