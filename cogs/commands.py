@@ -39,7 +39,7 @@ class GeneralCommands(commands.Cog):
             await interaction.response.send_message(f'{api.get_user(interaction.user.id)}', ephemeral=True)
 
     @slash_command(name='donate', description='Проверка оплаты и одновременно пожертвования)', guild_ids=guilds)
-    async def check(self, interaction: Interaction, amount: int = SlashOption(
+    async def donate(self, interaction: Interaction, amount: int = SlashOption(
         name='amount',
         description='Кол-во аров для пожертвования',
         required=True
@@ -56,25 +56,28 @@ class GeneralCommands(commands.Cog):
             embed.set_footer(text='Для оплаты, нажмите кнопку ниже.')
             await message.edit(embed=embed, view=DonateButton(url=url))
         except Exception as e:
-            print(e)
+            print(f'donate function error {e}')
 
 
 class DonateButton(View):
     def __init__(self, url=None):
         super().__init__(timeout=None)
         self.url = url
-        if self.url is not None:
-            self.add_item(
-                Button(style=ButtonStyle.link,
-                       label='Перейти на сайт для оплаты',
-                       url=f'{self.url}'))
-        else:
-            url = 'https://spworlds.ru/'
-            self.add_item(
-                Button(style=ButtonStyle.link,
-                       label='Перейти на сайт для оплаты',
-                       url=f'{url}',
-                       disabled=True))
+        try:
+            if self.url is not None:
+                self.add_item(
+                    Button(style=ButtonStyle.link,
+                           label='Перейти на сайт для оплаты',
+                           url=f'{self.url}'))
+            else:
+                url = 'https://spworlds.ru/'
+                self.add_item(
+                    Button(style=ButtonStyle.link,
+                           label='Перейти на сайт для оплаты',
+                           url=f'{url}',
+                           disabled=True))
+        except Exception as e:
+            print(f'DonateButton class error {e}')
 
 
 def setup(bot):
