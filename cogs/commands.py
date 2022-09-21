@@ -36,9 +36,11 @@ class GeneralCommands(commands.Cog):
         required=False
     )):
         if user is not None:
-            await interaction.response.send_message(f'{api.get_user(user.id)}', ephemeral=True)
+            spuser = await api.get_user(user.id)
         else:
-            await interaction.response.send_message(f'{api.get_user(interaction.user.id)}', ephemeral=True)
+            spuser = await api.get_user(interaction.user.id)
+            user = interaction.user.id
+        await interaction.response.send_message(f'У `{spuser}`({user.mention}) есть проходка на СПм', ephemeral=True)
 
     @slash_command(name='donate', description='Проверка оплаты и одновременно пожертвования)', guild_ids=guilds)
     async def donate(self, interaction: Interaction, amount: int = SlashOption(
