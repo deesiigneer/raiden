@@ -55,7 +55,8 @@ class GeneralCommands(commands.Cog):
                               webhook_url=f'{environ.get("WEBHOOK_URL", None)}',
                               data=f'{interaction.channel_id}-{message.id}')
             url = json.loads(url)
-            print(f'url = {url["url"]}')
+            print(f'url1 = {url}')
+            print(f'url2 = {url["url"]}')
             embed.set_footer(text='Для оплаты, нажмите кнопку ниже.')
             await message.edit(embed=embed, view=DonateButton(url=url['url']))
         except Exception as e:
