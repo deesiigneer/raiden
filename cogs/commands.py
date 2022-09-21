@@ -48,7 +48,7 @@ class GeneralCommands(commands.Cog):
             embed = Embed(title='Donate',
                           description='Если у этого сообщения, появится реакция от бота, значит оплата прошла успешно!')
             message = await interaction.channel.send(embed=embed)
-            url = api.payment(amount,
+            url = await api.payment(amount,
                               redirect_url='https://spworlds.ru/',
                               webhook_url=f'{environ.get("WEBHOOK_URL", None)}',
                               data=f'{interaction.channel_id}-{message.id}')
