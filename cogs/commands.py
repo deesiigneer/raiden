@@ -6,6 +6,7 @@ from nextcord.ext import commands
 from nextcord.ui import View, Select, Modal, Button, button, TextInput
 from nextcord.user import ClientUser
 from os import environ
+from sys import exc_info
 from pyspapi import API
 
 api = API(card_id=environ.get('SP_CARD_ID', None), token=environ.get('SP_TOKEN', None))
@@ -35,12 +36,21 @@ class GeneralCommands(commands.Cog):
         description='Пользователь в Discord',
         required=False
     )):
-        if user is not None:
-            spuser = await api.get_user(user.id)
-        else:
-            spuser = await api.get_user(interaction.user.id)
-            user = interaction.user.id
-        await interaction.response.send_message(f'У `{spuser}`({user.mention}) есть проходка на СПм', ephemeral=True)
+        try:
+            if user is not None:
+                spuser = await api.get_user(user.id)
+            else:
+                spuser = await api.get_user(interaction.user.id)
+                user = interaction.user
+            await interaction.response.send_message(f'У `{spuser}`({user.mention}) есть проходка на СПм', ephemeral=True)
+        except Exception as e:
+            print(e, f'\nat line {exc_info()[2].tb_lineno}')
+            if interaction.response.is_done() is False:
+                await interaction.response.send_message(f"[{exc_info()[2].tb_lineno}]Error: {e}",
+                                                        ephemeral=True)
+            elif interaction.response.is_done() is True:
+                await interaction.followup.send(f"[{exc_info()[2].tb_lineno}]Error: {e}",
+                                                ephemeral=True)
 
     @slash_command(name='donate', description='Проверка оплаты и одновременно пожертвования)', guild_ids=guilds)
     async def donate(self, interaction: Interaction, amount: int = SlashOption(
@@ -49,6 +59,9 @@ class GeneralCommands(commands.Cog):
         required=True
     )):
         try:
+            if amount <= 0:
+                await interaction.response.send_message(f"Сумма не должна быть меньше 0, указанная сумма = {amount}",
+                                                        ephemeral=True)
             embed = Embed(title='Donate',
                           description='Если у этого сообщения, появится реакция от бота, значит оплата прошла успешно!')
             message = await interaction.channel.send(embed=embed)
@@ -56,12 +69,16 @@ class GeneralCommands(commands.Cog):
                               redirect_url='https://spworlds.ru/',
                               webhook_url=f'{environ.get("WEBHOOK_URL", None)}',
                               data=f'{interaction.channel_id}-{message.id}')
-            print(f'url1 = {url}')
-            print(f'url2 = {url["url"]}')
             embed.set_footer(text='Для оплаты, нажмите кнопку ниже.')
             await message.edit(embed=embed, view=DonateButton(url=url['url']))
         except Exception as e:
-            print(f'donate function error {e}')
+            print(e, f'\nat line {exc_info()[2].tb_lineno}')
+            if interaction.response.is_done() is False:
+                await interaction.response.send_message(f"[{exc_info()[2].tb_lineno}]Error: {e}",
+                                                        ephemeral=True)
+            elif interaction.response.is_done() is True:
+                await interaction.followup.send(f"[{exc_info()[2].tb_lineno}]Error: {e}",
+                                                ephemeral=True)
 
 
 class DonateButton(View):
@@ -82,7 +99,7 @@ class DonateButton(View):
                            url=f'{url}',
                            disabled=True))
         except Exception as e:
-            print(f'DonateButton class error {e}')
+            print(e, f'\nat line {exc_info()[2].tb_lineno}')
 
 
 def setup(bot):
