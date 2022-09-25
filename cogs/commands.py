@@ -62,15 +62,16 @@ class GeneralCommands(commands.Cog):
             if amount <= 0:
                 await interaction.response.send_message(f"Сумма не должна быть меньше 0, указанная сумма = {amount}",
                                                         ephemeral=True)
-            embed = Embed(title='Donate',
-                          description='Если у этого сообщения, появится реакция от бота, значит оплата прошла успешно!')
-            message = await interaction.channel.send(embed=embed)
-            url = await api.payment(amount,
-                              redirect_url='https://spworlds.ru/',
-                              webhook_url=f'{environ.get("WEBHOOK_URL", None)}',
-                              data=f'{interaction.channel_id}-{message.id}')
-            embed.set_footer(text='Для оплаты, нажмите кнопку ниже.')
-            await message.edit(embed=embed, view=DonateButton(url=url['url']))
+            else:
+                embed = Embed(title='Donate',
+                              description='Если у этого сообщения, появится реакция от бота, значит оплата прошла успешно!')
+                message = await interaction.channel.send(embed=embed)
+                url = await api.payment(amount,
+                                  redirect_url='https://spworlds.ru/',
+                                  webhook_url=f'{environ.get("WEBHOOK_URL", None)}',
+                                  data=f'{interaction.channel_id}-{message.id}')
+                embed.set_footer(text='Для оплаты, нажмите кнопку ниже.')
+                await message.edit(embed=embed, view=DonateButton(url=url['url']))
         except Exception as e:
             print(e, f'\nat line {exc_info()[2].tb_lineno}')
             if interaction.response.is_done() is False:
