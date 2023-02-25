@@ -5,5 +5,3 @@ services:
     container_name: raiden
     build: .
     restart: unless-stopped
-    volumes:
-     - ./home/user/raiden
