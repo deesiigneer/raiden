@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  python:
+    container_name: raiden
+    build: .
+    restart: unless-stopped
+    volumes:
+     - ./home/user/raiden
+    environment:
+      BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+      SP_CARD_ID: ${{ secrets.SP_CARD_ID }}
+      SP_TOKEN: ${{ secrets.SP_TOKEN }}
