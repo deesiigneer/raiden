@@ -6,4 +6,7 @@ services:
     build: .
     restart: unless-stopped
     environment:
-      - WBHOOK_URL="https://cloud.deesiigneer.ru/webhook/"
+      - WBHOOK_URL=https://cloud.deesiigneer.ru/webhook/
+      - BOT_TOKEN=${{ secrets.BOT_TOKEN }}
+      - SP_CARD_ID=${{ secrets.SP_CARD_ID }}
+      - SP_TOKEN=${{ secrets.SP_TOKEN }}
