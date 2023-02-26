@@ -5,8 +5,3 @@ services:
     container_name: raiden
     build: .
     restart: unless-stopped
-    environment:
-      BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-      SP_CARD_ID: ${{ secrets.SP_CARD_ID }}
-      SP_TOKEN: ${{ secrets.SP_TOKEN }}
-      WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
