@@ -39,7 +39,9 @@ class GeneralCommands(commands.Cog):
             spuser = await api.get_user(user.id)
         else:
             spuser = await api.get_user(interaction.user.id)
-            user = interaction.user.id
+            print(spuser)
+            user = interaction.user
+            print(user)
         await interaction.response.send_message(f'У `{spuser}`({user.mention}) есть проходка на СПм', ephemeral=True)
 
     @slash_command(name='donate', description='Проверка оплаты и одновременно пожертвования)', guild_ids=guilds)
